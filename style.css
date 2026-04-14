@@ -1,22 +1,195 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+}
+
 body {
-  font-family: Arial;
-  background: #1e1e2f;
-  color: white;
-  text-align: center;
+  background: linear-gradient(135deg, #0b1120 0%, #111827 100%);
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 h1 {
-  margin-top: 20px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  background: linear-gradient(120deg, #ffffff, #a5c9ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  background: #1e2a47;
+  font-size: 0.8rem;
+  color: #8bb5ff;
+  padding: 4px 12px;
+  border-radius: 40px;
+  font-weight: normal;
+}
+
+.connection-status {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(6px);
+  padding: 0.5rem 1.2rem;
+  border-radius: 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.led {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #6c757d;
+  transition: all 0.2s;
+}
+
+.led.connected { background: #2ecc71; box-shadow: 0 0 8px #2ecc71; }
+.led.connecting { background: #f39c12; box-shadow: 0 0 8px #f39c12; }
+.led.disconnected { background: #e74c3c; box-shadow: 0 0 6px #e74c3c; }
+
+/* Tiga card - menggunakan grid agar responsif */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .card {
-  background: #2e2e4f;
-  margin: 20px auto;
-  padding: 20px;
-  width: 200px;
-  border-radius: 15px;
+  background: rgba(20, 30, 50, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 48px;
+  padding: 1.8rem 1rem;
+  text-align: center;
+  border: 1px solid rgba(80, 140, 255, 0.25);
+  transition: transform 0.2s, border-color 0.2s;
+  box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.3);
 }
 
-p {
-  font-size: 2em;
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(100, 160, 255, 0.6);
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #cbdffc;
+  margin-bottom: 1rem;
+}
+
+.value {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, #7aabff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  line-height: 1.2;
+}
+
+.unit {
+  font-size: 0.9rem;
+  color: #8ca3cf;
+  margin-top: 6px;
+}
+
+/* Card tangan spesifik */
+.card.hand .value {
+  font-size: 1.8rem;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  color: #ffd966;
+}
+
+.hand-detected .value {
+  color: #2ecc71 !important;
+  text-shadow: 0 0 6px #2ecc71;
+}
+
+.hand-detected .unit {
+  color: #2ecc71;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1.8rem;
+  margin-top: 1rem;
+}
+
+.chart-card {
+  background: rgba(12, 20, 35, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  padding: 1.2rem;
+  border: 1px solid rgba(80, 140, 255, 0.3);
+}
+
+.chart-title {
+  text-align: center;
+  font-weight: 500;
+  color: #cde2ff;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 0.3rem;
+}
+
+.footer-info {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6a7c9e;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 24px;
+}
+
+code {
+  background: #0a0f1a;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-family: monospace;
+  color: #ffd966;
+}
+
+@media (max-width: 780px) {
+  .chart-grid { grid-template-columns: 1fr; }
+  .value { font-size: 2.5rem; }
+  .card.hand .value { font-size: 1.4rem; }
+  body { padding: 1rem; }
 }
