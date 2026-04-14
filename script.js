@@ -3,8 +3,8 @@ const broker = "wss://801aa7276cf24c3881064f8513f377c6.s1.eu.hivemq.cloud:8884/m
 const options = {
   username: "heart_rate",
   password: "@Barokibnul725",
-  reconnectPeriod: 50,
-  connectTimeout: 3 * 10,
+  reconnectPeriod: 5000,
+  connectTimeout: 30 * 1000,
   clean: true,
   clientId: "web_dashboard_" + Math.random().toString(16).substr(2, 8)
 };
