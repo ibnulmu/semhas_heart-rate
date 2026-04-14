@@ -68,7 +68,7 @@ function resetHandDetection() {
       isHandDetected = false;
       updateHandCard(false);
     }
-  }, 500);
+  }, 3000);
 }
 
 // Jika koneksi putus, tangan otomatis tidak terdeteksi
