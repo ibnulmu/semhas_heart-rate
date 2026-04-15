@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Health Monitor MQTT | HR, SpO₂ & Deteksi Tangan</title>
+  <title>Health Monitor MQTT | Dua Grafik HR & SpO₂</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
   <link rel="stylesheet" href="style.css">
@@ -19,7 +19,6 @@
     </div>
   </div>
 
-  <!-- TIGA CARD -->
   <div class="cards">
     <div class="card heart">
       <h2>❤️ Detak Jantung</h2>
@@ -30,11 +29,6 @@
       <h2>🩸 Saturasi Oksigen</h2>
       <div class="value" id="spo2">--</div>
       <div class="unit">% SpO₂</div>
-    </div>
-    <div class="card hand">
-      <h2>✋ Status Tangan</h2>
-      <div class="value" id="handStatusValue">--</div>
-      <div class="unit" id="handStatusDesc">Menunggu data</div>
     </div>
   </div>
 
@@ -52,7 +46,6 @@
   <div class="footer-info">
     <p>🔌 Broker: HiveMQ Cloud | Topic: <code>health/monitor/data</code> | Format: <code>{"hr": 75, "spo2": 98}</code></p>
     <p>⚡ Sumbu Y: HR 50–200 bpm | SpO₂ 50–110% | 30 data terakhir | Update real-time</p>
-    <p>🖐️ Card "Status Tangan": Terdeteksi jika ada data SpO₂ dalam 3 detik terakhir, jika tidak maka "Tidak Terdeteksi"</p>
   </div>
 </div>
 
