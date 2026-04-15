@@ -17,11 +17,6 @@ const spo2Element = document.getElementById("spo2");
 const ledIndicator = document.getElementById("ledIndicator");
 const statusTextSpan = document.getElementById("statusText");
 
-// Elemen card tangan
-const handStatusValue = document.getElementById("handStatusValue");
-const handStatusDesc = document.getElementById("handStatusDesc");
-const handCard = document.querySelector(".card.hand");
-
 // Data untuk grafik HR
 let hrLabels = [];
 let hrValues = [];
@@ -37,48 +32,6 @@ let spo2Chart = null;
 let latestHR = null;
 let latestSpO2 = null;
 let client = null;
-
-// Timer untuk deteksi tangan (timeout 3 detik tanpa data)
-let handTimeout = null;
-let isHandDetected = false;
-
-// Fungsi update card tangan
-function updateHandCard(detected) {
-  if (detected) {
-    handStatusValue.innerText = "✅ TERDETEKSI";
-    handStatusDesc.innerText = "Tangan terpasang";
-    handCard.classList.add("hand-detected");
-  } else {
-    handStatusValue.innerText = "❌ TIDAK";
-    handStatusDesc.innerText = "Tangan tidak terdeteksi";
-    handCard.classList.remove("hand-detected");
-  }
-}
-
-// Reset timer tangan (dipanggil setiap ada data baru)
-function resetHandDetection() {
-  if (handTimeout) clearTimeout(handTimeout);
-  if (!isHandDetected) {
-    isHandDetected = true;
-    updateHandCard(true);
-  }
-  // Set timeout 3 detik -> jika tidak ada data baru, jadi tidak terdeteksi
-  handTimeout = setTimeout(() => {
-    if (isHandDetected) {
-      isHandDetected = false;
-      updateHandCard(false);
-    }
-  }, 3000);
-}
-
-// Jika koneksi putus, tangan otomatis tidak terdeteksi
-function forceHandUndetected() {
-  if (handTimeout) clearTimeout(handTimeout);
-  if (isHandDetected) {
-    isHandDetected = false;
-    updateHandCard(false);
-  }
-}
 
 // ================= INISIALISASI DUA GRAFIK =================
 function initCharts() {
@@ -125,7 +78,7 @@ function initCharts() {
     }
   });
   
-  // Grafik SpO2 dengan sumbu Y 50-110
+  // Grafik SpO2 dengan sumbu Y 50-110 (sesuai permintaan)
   spo2Chart = new Chart(spo2Ctx, {
     type: "line",
     data: {
@@ -153,8 +106,8 @@ function initCharts() {
         y: { 
           title: { display: true, text: "% SpO₂", color: "#9aa9c9" }, 
           ticks: { color: "#bdc4e0", stepSize: 10 },
-          min: 50,
-          max: 110,
+          min: 50,    // ← BATAS BAWAH 50
+          max: 110,   // ← BATAS ATAS 110
           grid: { color: "rgba(200,212,255,0.08)" } 
         },
         x: { ticks: { color: "#a0afcf", maxRotation: 35, autoSkip: true }, grid: { display: false } }
@@ -163,13 +116,13 @@ function initCharts() {
   });
 }
 
-// Update tampilan card HR & SpO2
+// Update tampilan card
 function updateCardValues() {
   hrElement.innerText = (latestHR !== null && !isNaN(latestHR)) ? Math.round(latestHR) : "--";
   spo2Element.innerText = (latestSpO2 !== null && !isNaN(latestSpO2)) ? Math.round(latestSpO2) : "--";
 }
 
-// Tambahkan data ke kedua grafik
+// Tambahkan data ke kedua grafik (dengan timestamp yang sama)
 function addDataToCharts(hrVal, spo2Val) {
   if (hrVal === null || spo2Val === null) return;
   if (isNaN(hrVal) || isNaN(spo2Val)) return;
@@ -177,14 +130,17 @@ function addDataToCharts(hrVal, spo2Val) {
   const now = new Date();
   const timeLabel = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   
+  // HR chart
   hrLabels.push(timeLabel);
   hrValues.push(hrVal);
   while (hrLabels.length > MAX_POINTS) { hrLabels.shift(); hrValues.shift(); }
   
+  // SpO2 chart
   spo2Labels.push(timeLabel);
   spo2Values.push(spo2Val);
   while (spo2Labels.length > MAX_POINTS) { spo2Labels.shift(); spo2Values.shift(); }
   
+  // Update kedua grafik
   if (hrChart) {
     hrChart.data.labels = [...hrLabels];
     hrChart.data.datasets[0].data = [...hrValues];
@@ -210,10 +166,6 @@ function onMessageReceived(topic, message) {
     latestSpO2 = spo2;
     updateCardValues();
     addDataToCharts(latestHR, latestSpO2);
-    
-    // Reset deteksi tangan (karena ada data baru)
-    resetHandDetection();
-    
     console.log(`Data: HR=${hr}, SpO2=${spo2}`);
   } catch(err) {
     console.error("JSON parse error:", err);
@@ -224,14 +176,9 @@ function onMessageReceived(topic, message) {
 function setConnectionState(state, msg) {
   statusTextSpan.innerText = msg;
   ledIndicator.className = "led";
-  if (state === "connected") {
-    ledIndicator.classList.add("connected");
-  } else if (state === "connecting") {
-    ledIndicator.classList.add("connecting");
-  } else {
-    ledIndicator.classList.add("disconnected");
-    forceHandUndetected(); // jika koneksi putus, tangan tidak terdeteksi
-  }
+  if (state === "connected") ledIndicator.classList.add("connected");
+  else if (state === "connecting") ledIndicator.classList.add("connecting");
+  else ledIndicator.classList.add("disconnected");
 }
 
 // Koneksi MQTT
@@ -255,6 +202,4 @@ function connectMQTT() {
 document.addEventListener("DOMContentLoaded", () => {
   initCharts();
   connectMQTT();
-  // Inisialisasi card tangan dalam keadaan tidak terdeteksi
-  updateHandCard(false);
 });
