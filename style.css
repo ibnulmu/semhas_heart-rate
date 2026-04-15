@@ -72,10 +72,10 @@ h1 {
 .led.connecting { background: #f39c12; box-shadow: 0 0 8px #f39c12; }
 .led.disconnected { background: #e74c3c; box-shadow: 0 0 6px #e74c3c; }
 
-/* Tiga card - menggunakan grid agar responsif */
 .cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
   margin-bottom: 2.5rem;
 }
@@ -84,58 +84,19 @@ h1 {
   background: rgba(20, 30, 50, 0.7);
   backdrop-filter: blur(12px);
   border-radius: 48px;
-  padding: 1.8rem 1rem;
+  padding: 1.8rem 2rem;
   text-align: center;
+  min-width: 220px;
+  flex: 1;
+  max-width: 280px;
   border: 1px solid rgba(80, 140, 255, 0.25);
-  transition: transform 0.2s, border-color 0.2s;
-  box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(100, 160, 255, 0.6);
-}
-
-.card h2 {
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #cbdffc;
-  margin-bottom: 1rem;
-}
-
-.value {
-  font-size: 3.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #ffffff, #7aabff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  line-height: 1.2;
-}
-
-.unit {
-  font-size: 0.9rem;
-  color: #8ca3cf;
-  margin-top: 6px;
-}
-
-/* Card tangan spesifik */
-.card.hand .value {
-  font-size: 1.8rem;
-  background: none;
-  -webkit-background-clip: unset;
-  background-clip: unset;
-  color: #ffd966;
-}
-
-.hand-detected .value {
-  color: #2ecc71 !important;
-  text-shadow: 0 0 6px #2ecc71;
-}
-
-.hand-detected .unit {
-  color: #2ecc71;
-}
+.card:hover { transform: translateY(-5px); border-color: rgba(100, 160, 255, 0.6); }
+.card h2 { font-size: 1.4rem; font-weight: 500; color: #cbdffc; margin-bottom: 1rem; }
+.value { font-size: 4rem; font-weight: 800; background: linear-gradient(135deg, #ffffff, #7aabff); background-clip: text; -webkit-background-clip: text; color: transparent; }
+.unit { font-size: 1rem; color: #8ca3cf; margin-top: 6px; }
 
 .chart-grid {
   display: grid;
@@ -189,7 +150,6 @@ code {
 
 @media (max-width: 780px) {
   .chart-grid { grid-template-columns: 1fr; }
-  .value { font-size: 2.5rem; }
-  .card.hand .value { font-size: 1.4rem; }
+  .value { font-size: 2.8rem; }
   body { padding: 1rem; }
 }
