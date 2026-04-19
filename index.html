@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Health Monitor MQTT | Dua Grafik HR & SpO₂</title>
+  <title>SEMINAR HASIL MQTT | Dua Grafik HR & SpO₂</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/mqtt@5.0.0/dist/mqtt.min.js"></script>
   <link rel="stylesheet" href="style.css">
@@ -12,7 +12,7 @@
 
 <div class="container">
   <div class="header">
-    <h1>💓 Health Monitor MQTT <span class="badge">Real-time</span></h1>
+    <h1>💓 SEMINAR HASIL  <span class="badge">Implementasi Sistem Monitoring Tanda Vital Secara Real Time</span></h1>
     <div class="connection-status">
       <div class="led" id="ledIndicator"></div>
       <span id="statusText">Menghubungkan...</span>
@@ -28,24 +28,25 @@
     <div class="card spo2">
       <h2>🩸 Saturasi Oksigen</h2>
       <div class="value" id="spo2">--</div>
-      <div class="unit">% SpO₂</div>
+      <div class="unit">SpO₂</div>
     </div>
   </div>
 
   <div class="chart-grid">
     <div class="chart-card">
-      <div class="chart-title">📊 Heart Rate (bpm) – 30 data terakhir</div>
+      <div class="chart-title">📊 Heart Rate (bpm) </div>
       <canvas id="hrChart" width="600" height="300"></canvas>
     </div>
+    
     <div class="chart-card">
-      <div class="chart-title">🩸 SpO₂ (%) – 30 data terakhir</div>
+      <div class="chart-title">🩸 SpO₂ (%) </div>
       <canvas id="spo2Chart" width="600" height="300"></canvas>
     </div>
   </div>
 
   <div class="footer-info">
-    <p>🔌 Broker: HiveMQ Cloud | Topic: <code>health/monitor/data</code> | Format: <code>{"hr": 75, "spo2": 98}</code></p>
-    <p>⚡ Sumbu Y: HR 50–200 bpm | SpO₂ 50–110% | 30 data terakhir | Update real-time</p>
+    <p>Ibnul Mubaroq | Nim: 2331110026 <p>
+    <p>Restu Ning Prihatin | Nim: 2331110073</p>
   </div>
 </div>
 
