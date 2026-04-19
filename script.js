@@ -69,7 +69,7 @@ function initCharts() {
         y: { 
           title: { display: true, text: "bpm", color: "#9aa9c9" }, 
           ticks: { color: "#bdc4e0", stepSize: 25 },
-          min: 50,
+          min: 0,
           max: 200,
           grid: { color: "rgba(200,212,255,0.08)" } 
         },
@@ -104,9 +104,9 @@ function initCharts() {
       },
       scales: {
         y: { 
-          title: { display: true, text: "% SpO₂", color: "#9aa9c9" }, 
+          title: { display: true, text: "SpO₂", color: "#9aa9c9" }, 
           ticks: { color: "#bdc4e0", stepSize: 10 },
-          min: 50,    // ← BATAS BAWAH 50
+          min: 0,    // ← BATAS BAWAH 50
           max: 110,   // ← BATAS ATAS 110
           grid: { color: "rgba(200,212,255,0.08)" } 
         },
@@ -184,12 +184,12 @@ function setConnectionState(state, msg) {
 // Koneksi MQTT
 function connectMQTT() {
   if (client && !client.disconnected) try { client.end(true); } catch(e) {}
-  setConnectionState("connecting", "Menghubungkan ke HiveMQ...");
+  setConnectionState("connecting", "Menghubungkan ...");
   client = mqtt.connect(broker, options);
   
   client.on("connect", () => {
     console.log("✅ MQTT Terhubung");
-    setConnectionState("connected", "Terhubung · subscribe ke topic");
+    setConnectionState("connected", "Terhubung ");
     client.subscribe(TOPIC, { qos: 0 });
   });
   client.on("message", onMessageReceived);
